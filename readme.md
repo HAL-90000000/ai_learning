@@ -1,19 +1,28 @@
 ## AI leaning notebooks  
-I am learning AI programming skills with Adrej Karpathy.
+I am learning AI programming skills following Adrej Karpathy's open courses.
+Here I will record the code that was reproduced from his open-source projects.  
+
 Website and projects for reference: 
 https://github.com/karpathy/nn-zero-to-hero
 
 ---
 
-### Structure:
-#### 001 micrograd: 
-a backprop machine
+### Contents:
+#### 1. micrograd: 
+- micrograd.ipynb: a backprop machine
 
-#### 002 makemore: 
-- makemore_1_bigram
-- makemore_2_MLP
-- makemore_3_
+#### 2. makemore: 
+- makemore_1_bigram.ipynb
+- makemore_2_MLP.ipynb
+- makemore_2_MLP_bn.ipynb
+- makemore_3_wavenet.ipynb
 
-to be continued
+#### 3. GPT
+- mini-GPT.ipynb
+- mini-GPT_bigram.py
+- mini-GPT_transformer.py
+
+to be continued...
+
 
 
