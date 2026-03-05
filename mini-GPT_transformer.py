@@ -5,11 +5,11 @@ import torch.nn as nn
 from torch.nn import functional as F
 
 # hyperparameters
-batch_size = 32 # how many independent sequences will we process in parallel?
-block_size = 8 # what is the maximum context length for predictions?
-max_iters = 3000 # 代表训练多少次迭代。每次迭代都会从训练数据中抽取一个batch进行训练
-eval_interval = 300 # 每隔多少次迭代评估一次模型在训练集和验证集上的损失。
-learning_rate = 1e-2
+batch_size = 64 # how many independent sequences will we process in parallel?
+block_size = 256 # what is the maximum context length for predictions?
+max_iters = 5000 # 代表训练多少次迭代。每次迭代都会从训练数据中抽取一个batch进行训练
+eval_interval = 500 # 每隔多少次迭代评估一次模型在训练集和验证集上的损失。
+learning_rate = 3e-4
 device = 'cuda' if torch.cuda.is_available() else 'cpu' # 选择设备，如果有GPU可用则使用GPU，否则使用CPU
 eval_iters = 200
 n_embd = 384
@@ -133,8 +133,8 @@ class Block(nn.Module):
         self.ln2 = nn.LayerNorm(n_embd)
 
     def forward(self, x):
-        x = x + self.sa(self.ln1(x)) # 这是一个残差块
-        x = x + self.ffwd(self.ln2(x)) # feedforward之前进行layernorm，与最初的transformer的设计不同的地方
+        x = x + self.sa(self.ln1(x)) # 加法代表一个残差连接
+        x = x + self.ffwd(self.ln2(x)) # feedforward之前进行layernorm，与最初的transformer的设计不同的地方，最初的transformer是在每个子层（self-attention和feedforward）之后进行layernorm的，而这里是在每个子层的输入之前进行layernorm的。这种设计被称为Pre-LN（Pre-LayerNorm），相对于Post-LN（Post-LayerNorm）来说，Pre-LN在训练深层Transformer时更稳定，能够更好地传播梯度，从而提高模型的性能和训练效率。
         return x
 
 class GPTLanguageModel(nn.Module):
@@ -206,7 +206,8 @@ class GPTLanguageModel(nn.Module):
 model = GPTLanguageModel()
 m = model.to(device)
 # print the number of parameters in the model
-print(sum(p.numel() for p in m.parameters())/1e6, 'M parameters') # .numel()方法返回一个张量中元素的总数，也就是参数的数量。计算模型的参数数量，并将其除以1e6以得到以百万为单位的参数数量。这个信息对于了解模型的规模和复杂度非常有用，尤其是在比较不同模型或评估模型的资源需求时。
+print(sum(p.numel() for p in m.parameters())/1e6, 'M parameters') # .numel()方法返回一个张量中元素的总数，也就是参数的数量。计算模型的参数数量，并将其除以1e6以得到以百万为单位的参数数量。这个信息对于了解模型的规模和复杂度非常有用，尤其是在比较不同模型或评估模型的资源需求时。参数量大约10M
+
 
 # create a PyTorch optimizer
 optimizer = torch.optim.AdamW(model.parameters(), lr=learning_rate)

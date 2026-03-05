@@ -1,4 +1,4 @@
-# 内容参见mini-GPT.ipynb
+# 笔记参见mini-GPT.ipynb
 
 import torch
 import torch.nn as nn

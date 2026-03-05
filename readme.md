@@ -1,5 +1,5 @@
 ## AI leaning notebooks  
-I am learning AI programming skills following Adrej Karpathy's open courses.
+I am learning AI programming skills following Adrej Karpathy's open courses.  
 Here I will record the code that was reproduced from his open-source projects.  
 
 Website and projects for reference: 
